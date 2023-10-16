@@ -9,7 +9,7 @@ import java.util.List;
 public class Record {
     List<String> washList;
     String image;
-    Date washDate;
+    String washDate;
     String washPlace;
 
 

@@ -39,6 +39,7 @@ public class MemberController {
         System.out.println(member.toString());
         return tokenInfo;
     }
+
     //아이디 중복 체크
     @PostMapping("/duplicate")
     public boolean duplicate(@RequestBody Map<String,String> map){

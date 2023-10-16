@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/carwash")
+@RequestMapping("/car")
 public class CarWashController {
 
     @PostMapping("/register")
-    public void register(HttpServletRequest request, @ModelAttribute Record record){
-        System.out.println(record.toString());
+    public void register(HttpServletRequest request){
+        System.out.println("hi");
     }
 }
