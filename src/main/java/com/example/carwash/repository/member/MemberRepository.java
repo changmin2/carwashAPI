@@ -1,4 +1,4 @@
-package com.example.carwash.repository;
+package com.example.carwash.repository.member;
 
 
 import com.example.carwash.domain.member.Member;

@@ -2,7 +2,7 @@ package com.example.carwash.service.member;
 
 
 import com.example.carwash.domain.member.Member;
-import com.example.carwash.repository.MemberRepository;
+import com.example.carwash.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

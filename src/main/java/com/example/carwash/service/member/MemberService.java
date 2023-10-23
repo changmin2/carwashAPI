@@ -3,7 +3,7 @@ package com.example.carwash.service.member;
 import com.example.carwash.domain.dto.TokenInfo;
 import com.example.carwash.domain.member.Member;
 import com.example.carwash.provider.JwtTokenProvider;
-import com.example.carwash.repository.MemberRepository;
+import com.example.carwash.repository.member.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,7 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 @Service

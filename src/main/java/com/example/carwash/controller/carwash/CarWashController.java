@@ -1,10 +1,23 @@
 package com.example.carwash.controller.carwash;
 
+import com.example.carwash.domain.dto.CarWashRecordDto;
 import com.example.carwash.domain.dto.RecordDto;
+import com.example.carwash.domain.member.Member;
+import com.example.carwash.service.member.MemberService;
+import com.example.carwash.service.record.RecordService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.text.ParseException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static com.example.carwash.utils.SecurityUtils.TOKEN_HEADER_PREFIX;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Slf4j
 @RestController
@@ -12,10 +25,26 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/car")
 public class CarWashController {
 
+    private final MemberService memberService;
+    private final RecordService recordService;
+
     @PostMapping("/register")
-    public void register(HttpServletRequest request,@RequestBody RecordDto recordDto){
-        System.out.println(recordDto.getDate());
-        System.out.println(recordDto.getWashList());
-        System.out.println(recordDto.getPlace());
+    public void register(HttpServletRequest request,@RequestBody RecordDto recordDto) throws ParseException {
+        String authroizationHeader = request.getHeader(AUTHORIZATION);
+        if(authroizationHeader == null || !authroizationHeader.startsWith(TOKEN_HEADER_PREFIX)){
+            throw new RuntimeException("JWT Token이 존재하지 않습니다.");
+        }
+
+        String accessToken = authroizationHeader.substring(TOKEN_HEADER_PREFIX.length());
+        Map<String,String> json = new HashMap<>();
+        Member member= memberService.getMe(accessToken);
+
+        recordService.registerRecord(member.getMemberId(),recordDto);
+
+    }
+
+    @GetMapping("/{date}")
+    public void getRecord(HttpServletRequest request,@PathVariable("date")String date){
+        System.out.println(date.toString());
     }
 }
