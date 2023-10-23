@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +46,19 @@ public class CarWashController {
 
     @GetMapping("/{date}")
     public void getRecord(HttpServletRequest request,@PathVariable("date")String date){
-        System.out.println(date.toString());
+        String authroizationHeader = request.getHeader(AUTHORIZATION);
+        if(authroizationHeader == null || !authroizationHeader.startsWith(TOKEN_HEADER_PREFIX)){
+            throw new RuntimeException("JWT Token이 존재하지 않습니다.");
+        }
+
+        String accessToken = authroizationHeader.substring(TOKEN_HEADER_PREFIX.length());
+        Map<String,String> json = new HashMap<>();
+        Member member= memberService.getMe(accessToken);
+
+        String splitDate = date.split(" ")[0];
+        String start = splitDate+"-01";
+
+
+
     }
 }
