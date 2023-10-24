@@ -7,6 +7,8 @@ import java.util.Date;
 @Data
 public class CarWashRecordDto {
 
+    private Integer id;
+
     private String memberId;
 
     private String imgUrl;

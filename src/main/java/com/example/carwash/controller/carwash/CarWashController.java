@@ -3,6 +3,7 @@ package com.example.carwash.controller.carwash;
 import com.example.carwash.domain.dto.CarWashRecordDto;
 import com.example.carwash.domain.dto.RecordDto;
 import com.example.carwash.domain.member.Member;
+import com.example.carwash.domain.record.CarWashRecord;
 import com.example.carwash.service.member.MemberService;
 import com.example.carwash.service.record.RecordService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,7 +46,7 @@ public class CarWashController {
     }
 
     @GetMapping("/{date}")
-    public void getRecord(HttpServletRequest request,@PathVariable("date")String date){
+    public List<CarWashRecord> getRecord(HttpServletRequest request,@PathVariable("date")String date) throws ParseException {
         String authroizationHeader = request.getHeader(AUTHORIZATION);
         if(authroizationHeader == null || !authroizationHeader.startsWith(TOKEN_HEADER_PREFIX)){
             throw new RuntimeException("JWT Token이 존재하지 않습니다.");
@@ -55,10 +56,7 @@ public class CarWashController {
         Map<String,String> json = new HashMap<>();
         Member member= memberService.getMe(accessToken);
 
-        String splitDate = date.split(" ")[0];
-        String start = splitDate+"-01";
-
-
+        return recordService.getRecord(member.getMemberId(), date);
 
     }
 }
