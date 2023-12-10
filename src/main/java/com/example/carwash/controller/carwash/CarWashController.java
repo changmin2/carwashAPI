@@ -36,11 +36,9 @@ public class CarWashController {
         if(authroizationHeader == null || !authroizationHeader.startsWith(TOKEN_HEADER_PREFIX)){
             throw new RuntimeException("JWT Token이 존재하지 않습니다.");
         }
-
         String accessToken = authroizationHeader.substring(TOKEN_HEADER_PREFIX.length());
         Map<String,String> json = new HashMap<>();
         Member member= memberService.getMe(accessToken);
-
         recordService.registerRecord(member.getMemberId(),recordDto);
 
     }
@@ -55,7 +53,6 @@ public class CarWashController {
         String accessToken = authroizationHeader.substring(TOKEN_HEADER_PREFIX.length());
         Map<String,String> json = new HashMap<>();
         Member member= memberService.getMe(accessToken);
-
         return recordService.getRecord(member.getMemberId(), date);
 
     }

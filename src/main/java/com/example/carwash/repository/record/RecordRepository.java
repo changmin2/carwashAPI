@@ -12,9 +12,9 @@ import java.util.List;
 @Repository
 public interface RecordRepository extends JpaRepository<CarWashRecord, Integer> {
 
-    @Query(value = "SELECT * FROM carwash.CarWashRecord\n" +
-            "where date between :date and DATE_ADD(:date,INTERVAL 1 MONTH)\n" +
-            "and memberId = :memberId",nativeQuery = true)
-    List<CarWashRecord> getRecord(String memberId, String date);
+    @Query(value = "SELECT id,memberId,imgUrl,washList,place,date_add(date,INTERVAL 1 DAY) date\n" +
+            "FROM carwash.CarWashRecord\n" +
+            "where memberId = :memberId",nativeQuery = true)
+    List<CarWashRecord> getRecord(String memberId);
 
 }

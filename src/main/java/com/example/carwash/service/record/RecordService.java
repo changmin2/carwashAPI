@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @Transactional
@@ -23,8 +24,10 @@ public class RecordService {
 
     @Transactional
     public void registerRecord(String memberId, RecordDto recordDto) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+        System.out.println(recordDto.getDate());
         Date date = formatter.parse(recordDto.getDate());
+        System.out.println(date.toString());
         recordRepository.save(
                 CarWashRecord.builder()
                         .place(recordDto.getPlace())
@@ -38,10 +41,10 @@ public class RecordService {
 
     public List<CarWashRecord> getRecord(String memberId, String date){
 
-        String splitDate = date.split(" ")[0];
-        String start = splitDate.substring(0,7)+"-01";
+//        String splitDate = date.split(" ")[0];
+//        String start = splitDate.substring(0,7)+"-01";
 
-        return recordRepository.getRecord(memberId,start);
+        return recordRepository.getRecord(memberId);
 
     }
 }

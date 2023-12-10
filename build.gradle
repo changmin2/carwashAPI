@@ -16,7 +16,9 @@ configurations {
 		extendsFrom annotationProcessor
 	}
 }
-
+bootJar {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
 repositories {
 	mavenCentral()
 }

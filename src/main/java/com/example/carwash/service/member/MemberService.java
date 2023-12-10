@@ -40,11 +40,13 @@ public class MemberService {
     }
 
     @Transactional
-    public String join(String memberId,String password){
+    public String join(String memberId,String password,String nickname,String intro){
         return memberRepository.save(
                     Member.builder()
                         .memberId(memberId)
                         .password(password)
+                        .nickname(nickname)
+                        .intro(intro)
                         .roles(Collections.singletonList("USER"))
                         .build()
         ).getMemberId();
