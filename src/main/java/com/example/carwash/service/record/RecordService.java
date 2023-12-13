@@ -25,9 +25,8 @@ public class RecordService {
     @Transactional
     public void registerRecord(String memberId, RecordDto recordDto) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
-        System.out.println(recordDto.getDate());
         Date date = formatter.parse(recordDto.getDate());
-        System.out.println(date.toString());
+
         recordRepository.save(
                 CarWashRecord.builder()
                         .place(recordDto.getPlace())

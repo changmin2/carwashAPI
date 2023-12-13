@@ -1,0 +1,62 @@
+package com.example.carwash.service.community;
+
+import com.example.carwash.domain.community.Community;
+import com.example.carwash.domain.dto.MetaDto;
+import com.example.carwash.domain.dto.community.CommunityRequestDto;
+import com.example.carwash.repository.community.CommunityRepository;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.Local;
+import org.springframework.stereotype.Service;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+
+@Service
+@Transactional
+@RequiredArgsConstructor
+public class CommunityService {
+    private final CommunityRepository communityRepository;
+
+    @Transactional
+    public void register(Map<String,String> json) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+        Date date = formatter.parse(LocalDate.now().toString());
+        System.out.println(date);
+        communityRepository.save(
+                Community.builder()
+                        .creator(json.get("creator"))
+                        .content(json.get("content"))
+                        .createDate(date)
+                        .category("자유게시판")
+                        .hits(0)
+                        .favorite(0)
+                        .build()
+        );
+    }
+
+    public Map<String, Object> paginate(CommunityRequestDto requestDto) {
+        int count;
+        boolean hasMore = true;
+        Optional<List<Community>> boardList = communityRepository.paginate(requestDto.getAfter());
+        List<Community> lists = boardList.get();
+        if(lists.size() == 0){
+            return null;
+        }
+        count = lists.size();
+        if(boardList.get().get(count-1).getId()==communityRepository.getFinalId()){
+            hasMore = false;
+        }
+
+        MetaDto metaDto = new MetaDto();
+        metaDto.setCount(count);
+        metaDto.setHasMore(hasMore);
+        Map<String,Object> map = new HashMap<>();
+        map.put("mete",metaDto);
+        map.put("data",boardList);
+        return map;
+    }
+}
