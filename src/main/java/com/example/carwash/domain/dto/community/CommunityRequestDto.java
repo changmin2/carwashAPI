@@ -9,8 +9,11 @@ public class CommunityRequestDto {
 
     private int count;
 
+    private String category;
+
     public CommunityRequestDto() {
         this.after = 0;
         this.count = 20;
+        this.category = "";
     }
 }

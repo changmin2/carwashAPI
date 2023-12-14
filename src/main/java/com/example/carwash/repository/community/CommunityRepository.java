@@ -14,13 +14,15 @@ public interface CommunityRepository extends JpaRepository<Community,Integer> {
     @Query(value = "SELECT t.*\n" +
                    "  FROM carwash.Community t\n" +
                     "WHERE id>:community_id\n" +
+                    "  AND category LIKE %:category%\n" +
                     "ORDER BY id\n" +
                     "LIMIT 20",nativeQuery = true)
-    Optional<List<Community>> paginate(@Param(value = "community_id")int id);
+    Optional<List<Community>> paginate(@Param(value = "community_id")int id,@Param(value = "category")String category);
 
     @Query(value = "SELECT t.*\n" +
                    "  FROM carwash.Community t\n" +
+                    "WHERE category LIKE %:category%\n" +
                     "ORDER BY id DESC\n" +
                     "LIMIT 1",nativeQuery = true)
-    Integer getFinalId();
+    Integer getFinalId(@Param(value = "category")String category);
 }

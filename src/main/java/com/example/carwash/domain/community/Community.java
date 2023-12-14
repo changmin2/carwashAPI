@@ -33,6 +33,8 @@ public class Community {
 
     private String category;
 
+    private String title;
+
 
 
 }

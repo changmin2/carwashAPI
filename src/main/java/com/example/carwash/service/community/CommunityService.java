@@ -31,7 +31,8 @@ public class CommunityService {
                         .creator(json.get("creator"))
                         .content(json.get("content"))
                         .createDate(date)
-                        .category("자유게시판")
+                        .category(json.get("category"))
+                        .title(json.get("title"))
                         .hits(0)
                         .favorite(0)
                         .build()
@@ -41,13 +42,13 @@ public class CommunityService {
     public Map<String, Object> paginate(CommunityRequestDto requestDto) {
         int count;
         boolean hasMore = true;
-        Optional<List<Community>> boardList = communityRepository.paginate(requestDto.getAfter());
+        Optional<List<Community>> boardList = communityRepository.paginate(requestDto.getAfter(),requestDto.getCategory());
         List<Community> lists = boardList.get();
         if(lists.size() == 0){
             return null;
         }
         count = lists.size();
-        if(boardList.get().get(count-1).getId()==communityRepository.getFinalId()){
+        if(boardList.get().get(count-1).getId()==communityRepository.getFinalId(requestDto.getCategory())){
             hasMore = false;
         }
 
@@ -55,7 +56,7 @@ public class CommunityService {
         metaDto.setCount(count);
         metaDto.setHasMore(hasMore);
         Map<String,Object> map = new HashMap<>();
-        map.put("mete",metaDto);
+        map.put("meta",metaDto);
         map.put("data",boardList);
         return map;
     }
