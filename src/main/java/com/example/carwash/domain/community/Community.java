@@ -1,15 +1,15 @@
 package com.example.carwash.domain.community;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.carwash.domain.comment.Comment;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -34,6 +34,10 @@ public class Community {
     private String category;
 
     private String title;
+
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @JoinColumn(referencedColumnName = "id")
+    private List<Comment> commentList = new ArrayList<>();
 
 
 

@@ -27,6 +27,7 @@ public class CommunityController {
 
     @GetMapping("/communityPaginate")
     public Map<String, Object> paginate(@ModelAttribute CommunityRequestDto requestDto){
+        System.out.println(requestDto.toString());
         Map<String,Object> map = communityService.paginate(requestDto);
          return map;
     }
