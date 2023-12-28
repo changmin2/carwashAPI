@@ -2,6 +2,7 @@ package com.example.carwash.controller;
 
 
 import com.example.carwash.domain.dto.MemberLoginRequestDto;
+import com.example.carwash.domain.dto.SNSLoginRequestDto;
 import com.example.carwash.domain.dto.TokenInfo;
 import com.example.carwash.domain.member.Member;
 import com.example.carwash.service.member.MemberService;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.example.carwash.utils.SecurityUtils.TOKEN_HEADER_PREFIX;
+import static java.util.Map.entry;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Slf4j
@@ -29,7 +32,6 @@ public class MemberController {
 
     @PostMapping("/login")
     public TokenInfo login(@RequestBody MemberLoginRequestDto memberLoginRequestDto) {
-        System.out.println(memberLoginRequestDto.toString());
         Member member = memberService.getMember(memberLoginRequestDto.getMemberId())
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 ID 입니다."));
         if(!passwordEncoder.matches(memberLoginRequestDto.getPassword(),member.getPassword())){
@@ -37,6 +39,19 @@ public class MemberController {
         }
         TokenInfo tokenInfo = memberService.login(memberLoginRequestDto.getMemberId(), member.getPassword());
         System.out.println(member.toString());
+        return tokenInfo;
+    }
+
+    @PostMapping("/snslogin")
+    public TokenInfo snslogin(@RequestBody SNSLoginRequestDto memberLoginRequestDto) {
+        if(memberService.getMember(memberLoginRequestDto.getMemberId()).isEmpty()){
+            memberService.join(memberLoginRequestDto.getMemberId(),memberLoginRequestDto.getPassword(),memberLoginRequestDto.getNickname(),"");
+        }
+        Member member = memberService.getMember(memberLoginRequestDto.getMemberId())
+                .orElseThrow(() -> new IllegalArgumentException("로그인 오류 입니다."));
+
+        TokenInfo tokenInfo = memberService.login(memberLoginRequestDto.getMemberId(), member.getPassword());
+
         return tokenInfo;
     }
 
@@ -48,7 +63,6 @@ public class MemberController {
 
     @GetMapping("/me")
     public Map<String,String> getMe(HttpServletRequest request){
-
         String authroizationHeader = request.getHeader(AUTHORIZATION);
         if(authroizationHeader == null || !authroizationHeader.startsWith(TOKEN_HEADER_PREFIX)){
             throw new RuntimeException("JWT Token이 존재하지 않습니다.");

@@ -33,6 +33,7 @@ public class SecurityConfig {
                 .requestMatchers("/car/**").permitAll()
                 .requestMatchers("/members/login").permitAll()
                 .requestMatchers("/members/join").permitAll()
+                .requestMatchers("/members/snslogin").permitAll()
                 .requestMatchers("/members/refresh").permitAll()
                 .requestMatchers("/members/me").permitAll()
                 .requestMatchers("/members/duplicate").permitAll()
