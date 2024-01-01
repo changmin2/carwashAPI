@@ -56,4 +56,10 @@ public class CarWashController {
         return recordService.getRecord(member.getMemberId(), date);
 
     }
+
+    @PostMapping("/recentRecord")
+    public List<CarWashRecord> recentRecord(@RequestBody Map<String,String> json){
+        System.out.println(json.get("memberId") + "hi");
+        return recordService.recnetRecord(json.get("memberId"));
+    }
 }

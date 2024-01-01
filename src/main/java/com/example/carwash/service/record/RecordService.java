@@ -46,4 +46,8 @@ public class RecordService {
         return recordRepository.getRecord(memberId);
 
     }
+
+    public List<CarWashRecord> recnetRecord(String memberId){
+        return recordRepository.recentRecord(memberId);
+    }
 }

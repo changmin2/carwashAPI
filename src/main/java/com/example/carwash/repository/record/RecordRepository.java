@@ -17,4 +17,9 @@ public interface RecordRepository extends JpaRepository<CarWashRecord, Integer> 
             "where memberId = :memberId",nativeQuery = true)
     List<CarWashRecord> getRecord(String memberId);
 
+    @Query(value = "SELECT * FROM carwash.CarWashRecord\n" +
+            " WHERE memberId = :memberId\n" +
+            " order by date desc\n" +
+            " limit 3",nativeQuery = true)
+    List<CarWashRecord> recentRecord(String memberId);
 }
