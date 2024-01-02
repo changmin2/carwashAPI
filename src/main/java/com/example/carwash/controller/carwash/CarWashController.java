@@ -31,7 +31,7 @@ public class CarWashController {
     private final RecordService recordService;
 
     @PostMapping("/register")
-    public void register(HttpServletRequest request,@RequestBody RecordDto recordDto) throws ParseException {
+    public CarWashRecord register(HttpServletRequest request,@RequestBody RecordDto recordDto) throws ParseException {
         String authroizationHeader = request.getHeader(AUTHORIZATION);
         if(authroizationHeader == null || !authroizationHeader.startsWith(TOKEN_HEADER_PREFIX)){
             throw new RuntimeException("JWT Token이 존재하지 않습니다.");
@@ -39,7 +39,7 @@ public class CarWashController {
         String accessToken = authroizationHeader.substring(TOKEN_HEADER_PREFIX.length());
         Map<String,String> json = new HashMap<>();
         Member member= memberService.getMe(accessToken);
-        recordService.registerRecord(member.getMemberId(),recordDto);
+        return recordService.registerRecord(member.getMemberId(),recordDto);
 
     }
 
@@ -59,7 +59,7 @@ public class CarWashController {
 
     @PostMapping("/recentRecord")
     public List<CarWashRecord> recentRecord(@RequestBody Map<String,String> json){
-        System.out.println(json.get("memberId") + "hi");
         return recordService.recnetRecord(json.get("memberId"));
     }
+
 }

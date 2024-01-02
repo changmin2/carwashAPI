@@ -60,4 +60,8 @@ public class CommunityService {
         map.put("data",boardList);
         return map;
     }
+
+    public List<Community> recentCommunity() {
+        return communityRepository.getRecentCommunity();
+    }
 }

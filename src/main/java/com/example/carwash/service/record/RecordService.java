@@ -23,11 +23,11 @@ public class RecordService {
     private final RecordRepository recordRepository;
 
     @Transactional
-    public void registerRecord(String memberId, RecordDto recordDto) throws ParseException {
+    public CarWashRecord registerRecord(String memberId, RecordDto recordDto) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
         Date date = formatter.parse(recordDto.getDate());
 
-        recordRepository.save(
+        return recordRepository.save(
                 CarWashRecord.builder()
                         .place(recordDto.getPlace())
                         .date(date)
