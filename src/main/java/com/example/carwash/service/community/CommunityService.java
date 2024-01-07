@@ -25,7 +25,6 @@ public class CommunityService {
     public void register(Map<String,String> json) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
         Date date = formatter.parse(LocalDate.now().toString());
-        System.out.println(date);
         communityRepository.save(
                 Community.builder()
                         .creator(json.get("creator"))
@@ -35,11 +34,14 @@ public class CommunityService {
                         .title(json.get("title"))
                         .hits(0)
                         .favorite(0)
+                        .hastag(json.get("hastag"))
+                        .imgUrls(json.get("imgUrl").toString())
                         .build()
         );
     }
 
     public Map<String, Object> paginate(CommunityRequestDto requestDto) {
+        System.out.println(requestDto.toString());
         int count;
         boolean hasMore = true;
         Optional<List<Community>> boardList = communityRepository.paginate(requestDto.getAfter(),requestDto.getCategory());
@@ -48,7 +50,10 @@ public class CommunityService {
             return null;
         }
         count = lists.size();
-        if(boardList.get().get(count-1).getId()==communityRepository.getFinalId(requestDto.getCategory())){
+        System.out.println(boardList.get().get(count-1).getId());
+        System.out.println(communityRepository.getFinalId(requestDto.getCategory()));
+        System.out.println(boardList.get().get(count-1).getId() == communityRepository.getFinalId(requestDto.getCategory()));
+        if(boardList.get().get(count-1).getId().equals(communityRepository.getFinalId(requestDto.getCategory()))){
             hasMore = false;
         }
 

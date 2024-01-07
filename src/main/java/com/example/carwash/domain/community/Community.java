@@ -35,6 +35,10 @@ public class Community {
 
     private String title;
 
+    private String hastag;
+
+    private String imgUrls;
+
     @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(referencedColumnName = "id")
     private List<Comment> commentList = new ArrayList<>();
