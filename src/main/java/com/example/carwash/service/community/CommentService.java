@@ -49,7 +49,11 @@ public class CommentService {
         }
 
         count = commentList.size();
-        if(commentList.get(count-1).getComment_id()==commentRepository.getFinalId(Integer.parseInt(recipe_id))){
+
+        if(commentList.get(count-1).getComment_id().equals(Long.parseLong(String.valueOf(commentRepository.getFinalId(Integer.parseInt(recipe_id)))))){
+            System.out.println(commentList.get(count-1).getComment_id());
+            System.out.println(commentRepository.getFinalId(Integer.parseInt(recipe_id)));
+            System.out.println("입입");
             hasMore = false;
         }
 
