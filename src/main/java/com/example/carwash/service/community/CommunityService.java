@@ -69,4 +69,14 @@ public class CommunityService {
     public List<Community> recentCommunity() {
         return communityRepository.getRecentCommunity();
     }
+
+    public List<Community> recentFreeCommunity() {
+        return communityRepository.getFreeCommunity();
+    }
+
+    @Transactional
+    public void clickFavorite(int id) {
+        Community re = communityRepository.findById(id).get();
+        re.setFavorite(re.getFavorite()+1);
+    }
 }

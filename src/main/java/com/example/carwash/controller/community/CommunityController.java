@@ -40,4 +40,15 @@ public class CommunityController {
     public List<Community> recentCommunity(){
         return communityService.recentCommunity();
     }
+
+    @GetMapping("/recentFreeCommunity")
+    public List<Community> recentFreeCommunity(){
+        return communityService.recentFreeCommunity();
+    }
+
+    @GetMapping("/clickFavorite/{id}")
+    void clickFavorite(@PathVariable("id")int id){
+        communityService.clickFavorite(id);
+
+    }
 }

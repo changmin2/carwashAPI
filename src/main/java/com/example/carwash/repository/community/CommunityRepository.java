@@ -30,4 +30,10 @@ public interface CommunityRepository extends JpaRepository<Community,Integer> {
             "order by createDate desc\n" +
             "limit 5",nativeQuery = true)
     List<Community> getRecentCommunity();
+
+    @Query(value = "SELECT * FROM carwash.Community\n" +
+            "WHERE category ='자유게시판'\n" +
+            "order by createDate desc\n" +
+            "limit 5",nativeQuery = true)
+    List<Community> getFreeCommunity();
 }
