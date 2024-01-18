@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,8 +32,10 @@ public class CommentService {
         comment.setCreator(commentDto.getCreator());
         comment.setContent(commentDto.getContent());
         comment.setCreateDate(commentDto.getCreateDate());
-        Community recipe = communityRepository.findById(Integer.parseInt(recipe_id)).get();
-        List<Comment> commentList = recipe.getCommentList();
+        comment.setCommentList_id(Integer.parseInt(recipe_id));
+        Community community = communityRepository.findById(Integer.parseInt(recipe_id)).get();
+        community.setCommentCnt(community.getCommentCnt()+1);
+        List<Comment> commentList = community.getCommentList();
         commentList.add(comment);
         return commentList.get(commentList.size()-1);
 
@@ -49,11 +52,7 @@ public class CommentService {
         }
 
         count = commentList.size();
-
         if(commentList.get(count-1).getComment_id().equals(Long.parseLong(String.valueOf(commentRepository.getFinalId(Integer.parseInt(recipe_id)))))){
-            System.out.println(commentList.get(count-1).getComment_id());
-            System.out.println(commentRepository.getFinalId(Integer.parseInt(recipe_id)));
-            System.out.println("입입");
             hasMore = false;
         }
 
@@ -68,6 +67,10 @@ public class CommentService {
     }
 
     public void deleteComment(String comment_id){
+        Comment co = commentRepository.findById(Long.parseLong(comment_id)).get();
+        int commentCnt = co.getCommentList().size()+1;
+        Community comu = communityRepository.findById(co.getCommentList_id()).get();
+        comu.setCommentCnt(comu.getCommentCnt()-commentCnt);
         commentRepository.deleteById(Long.parseLong(comment_id));
     }
 
@@ -78,12 +81,18 @@ public class CommentService {
         reComment.setContent(commentDto.getContent());
         reComment.setCreateDate(commentDto.getCreateDate());
         Comment comment = commentRepository.findById(Long.parseLong(commentId)).get();
+        Community community = communityRepository.findById(comment.getCommentList_id()).get();
+        community.setCommentCnt(community.getCommentCnt()+1);
         List<ReComment> commentList = comment.getCommentList();
         commentList.add(reComment);
         return commentList.get(commentList.size()-1);
     }
 
     public void deleteRecomment(String recomment_id) {
+        int comment_id = commentRepository.getCommentId(Integer.parseInt(recomment_id));
+        Comment co = commentRepository.findById((long) comment_id).get();
+        Community comu = communityRepository.findById(co.getCommentList_id()).get();
+        comu.setCommentCnt(comu.getCommentCnt()-1);
         reCommentRepository.deleteById(Long.parseLong(recomment_id));
     }
 }

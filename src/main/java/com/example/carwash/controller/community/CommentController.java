@@ -57,7 +57,6 @@ public class CommentController {
     //대댓글 생성
     @PostMapping("/recomment/{id}")
     public ReComment createReComment(@PathVariable("id")String comment_id, @RequestBody CommentDto commentDto) throws ParseException {
-        System.out.println("hello");
         Date now = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         // 포맷팅 적용

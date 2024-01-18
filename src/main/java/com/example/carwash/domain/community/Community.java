@@ -39,6 +39,8 @@ public class Community {
 
     private String imgUrls;
 
+    private Integer commentCnt;
+
     @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(referencedColumnName = "id")
     private List<Comment> commentList = new ArrayList<>();

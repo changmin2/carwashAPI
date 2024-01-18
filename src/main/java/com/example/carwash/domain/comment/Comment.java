@@ -23,6 +23,9 @@ public class Comment {
 
     private Date createDate;
 
+    //커뮤니티 아이디
+    private int commentList_id;
+
     @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(referencedColumnName = "comment_id")
     private List<ReComment> commentList = new ArrayList<>();

@@ -35,4 +35,9 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
             "order by comment_id desc\n" +
             "limit 1;",nativeQuery = true)
     int getFinalId(@Param("id")int id);
+
+    @Query(value = "SELECT commentList_comment_id\n" +
+            "FROM carwash.ReComment\n" +
+            "where recomment_id =:recomment_id",nativeQuery = true)
+    int getCommentId(@Param("recomment_id")int recomment_id);
 }
