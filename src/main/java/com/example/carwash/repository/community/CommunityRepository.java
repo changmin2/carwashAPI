@@ -26,10 +26,22 @@ public interface CommunityRepository extends JpaRepository<Community,Integer> {
                     "LIMIT 1",nativeQuery = true)
     Integer getFinalId(@Param(value = "category")String category);
 
-    @Query(value = "SELECT * FROM carwash.Community\n" +
-            "WHERE category ='세차라이프'\n" +
-            "order by createDate desc\n" +
-            "limit 5",nativeQuery = true)
+    @Query(value = "(select *\n" +
+            "  from carwash.Community\n" +
+            "order by favorite desc,createDate desc\n" +
+            "limit 5)\n" +
+            "union\n" +
+            "(select *\n" +
+            "  from carwash.Community\n" +
+            " where category = \"세차라이프\"\n" +
+            "order by favorite desc,createDate desc\n" +
+            "limit 5)\n" +
+            "union \n" +
+            "(select *\n" +
+            "  from carwash.Community\n" +
+            " where category = \"자유게시판\"\n" +
+            "order by favorite desc,createDate desc\n" +
+            "limit 5)\n",nativeQuery = true)
     List<Community> getRecentCommunity();
 
     @Query(value = "SELECT * FROM carwash.Community\n" +
@@ -37,4 +49,5 @@ public interface CommunityRepository extends JpaRepository<Community,Integer> {
             "order by createDate desc\n" +
             "limit 5",nativeQuery = true)
     List<Community> getFreeCommunity();
+
 }
