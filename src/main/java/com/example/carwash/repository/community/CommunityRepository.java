@@ -27,6 +27,7 @@ public interface CommunityRepository extends JpaRepository<Community,Integer> {
     Integer getFinalId(@Param(value = "category")String category);
 
     @Query(value = "SELECT * FROM carwash.Community\n" +
+            "WHERE category ='세차라이프'\n" +
             "order by createDate desc\n" +
             "limit 5",nativeQuery = true)
     List<Community> getRecentCommunity();
