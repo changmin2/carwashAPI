@@ -41,6 +41,7 @@ public class SecurityConfig {
                 .requestMatchers("/members/withDrawal").permitAll()
                 .requestMatchers("/community/**").permitAll()
                 .requestMatchers("/comment/**").permitAll()
+                .requestMatchers("/favorite/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)

@@ -79,12 +79,14 @@ public class MemberService {
     public Member getMe(String accessToken){
         if(jwtTokenProvider.validateToken(accessToken)) {
             Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
+
             String memberId = authentication.getName();
             Member member = getMember(memberId)
                     .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 ID 입니다."));
 
             return member;
         }
+
         return null;
     }
 
