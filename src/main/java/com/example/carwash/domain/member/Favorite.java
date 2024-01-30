@@ -21,5 +21,5 @@ public class Favorite {
 
     private String memberId;
 
-    private int boardId;
+    private int board_id;
 }

@@ -4,6 +4,7 @@ import com.example.carwash.domain.member.Favorite;
 import com.example.carwash.repository.favorite.FavoriteRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,14 +21,17 @@ public class FavoriteService {
     }
 
     public void addHeart(int boardId, String memberId) {
+        System.out.println(boardId + "=" + memberId+"hihihi");
         favoriteRepository.save(
                 Favorite.builder()
                         .memberId(memberId)
-                        .boardId(boardId)
+                        .board_id(boardId)
                         .build()
         );
     }
 
+    @Transactional
+    @Modifying
     public void deleteClip(int boardId, String memberId) {
         favoriteRepository.deleteHeart(boardId,memberId);
     }

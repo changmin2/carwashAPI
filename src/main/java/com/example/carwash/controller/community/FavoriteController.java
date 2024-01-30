@@ -48,7 +48,7 @@ public class FavoriteController {
         favoriteService.addHeart(board_id,member.getMemberId());
     }
 
-    @GetMapping("/deleteClip/{id}")
+    @GetMapping("/delete/{id}")
     public void DeleteClip(@PathVariable("id") int board_id,HttpServletRequest request){
         String authroizationHeader = request.getHeader(AUTHORIZATION);
         if(authroizationHeader == null || !authroizationHeader.startsWith(TOKEN_HEADER_PREFIX)){

@@ -84,4 +84,10 @@ public class CommunityService {
         Community re = communityRepository.findById(id).get();
         re.setFavorite(re.getFavorite()+1);
     }
+
+    @Transactional
+    public void downFavorite(int id) {
+        Community re = communityRepository.findById(id).get();
+        re.setFavorite(re.getFavorite()-1);
+    }
 }

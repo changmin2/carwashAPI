@@ -49,5 +49,10 @@ public class CommunityController {
         communityService.clickFavorite(id);
     }
 
+    @GetMapping("/downFavorite/{id}")
+    void downFavorite(@PathVariable("id")int id){
+        communityService.downFavorite(id);
+    }
+
 
 }
