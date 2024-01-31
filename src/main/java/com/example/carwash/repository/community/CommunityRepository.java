@@ -15,7 +15,7 @@ public interface CommunityRepository extends JpaRepository<Community,Integer> {
                    "  FROM carwash.Community t\n" +
                     "WHERE id>:community_id\n" +
                     "  AND category LIKE %:category%\n" +
-                    "ORDER BY id\n" +
+                    "ORDER BY createDate desc,id\n" +
                     "LIMIT 20",nativeQuery = true)
     Optional<List<Community>> paginate(@Param(value = "community_id")int id,@Param(value = "category")String category);
 

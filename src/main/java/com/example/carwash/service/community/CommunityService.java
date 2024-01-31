@@ -23,8 +23,10 @@ public class CommunityService {
 
     @Transactional
     public void register(Map<String,String> json) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
-        Date date = formatter.parse(LocalDate.now().toString());
+        Date today = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+        String date = formatter.format(today);
+        Date converDate = formatter.parse(date);
         String imgUrl;
         if(json.get("imgUrl").equals(("[]"))){
             imgUrl = "";
@@ -36,7 +38,7 @@ public class CommunityService {
                 Community.builder()
                         .creator(json.get("creator"))
                         .content(json.get("content"))
-                        .createDate(date)
+                        .createDate(converDate)
                         .category(json.get("category"))
                         .title(json.get("title"))
                         .hits(0)
