@@ -33,7 +33,6 @@ public class CommunityService {
         }else{
             imgUrl = json.get("imgUrl");
         }
-        System.out.println(json.get("imgUrl").toString() + "hiih");
         communityRepository.save(
                 Community.builder()
                         .creator(json.get("creator"))
@@ -59,7 +58,10 @@ public class CommunityService {
             return null;
         }
         count = lists.size();
-
+        System.out.println(boardList.get().get(count-1).getId());
+        System.out.println(communityRepository.getFinalId(requestDto.getCategory()));
+        System.out.println(boardList.get().get(count-1).getId().equals(communityRepository.getFinalId(requestDto.getCategory())));
+        System.out.println("gheefe");
         if(boardList.get().get(count-1).getId().equals(communityRepository.getFinalId(requestDto.getCategory()))){
             hasMore = false;
         }

@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface CommunityRepository extends JpaRepository<Community,Integer> {
     @Query(value = "SELECT t.*\n" +
                    "  FROM carwash.Community t\n" +
-                    "WHERE id>:community_id\n" +
+                    "WHERE id<:community_id\n" +
                     "  AND category LIKE %:category%\n" +
                     "ORDER BY createDate desc,id\n" +
                     "LIMIT 20",nativeQuery = true)
@@ -22,7 +22,7 @@ public interface CommunityRepository extends JpaRepository<Community,Integer> {
     @Query(value = "SELECT t.*\n" +
                    "  FROM carwash.Community t\n" +
                     "WHERE category LIKE %:category%\n" +
-                    "ORDER BY id DESC\n" +
+                    "ORDER BY createDate ,id\n" +
                     "LIMIT 1",nativeQuery = true)
     Integer getFinalId(@Param(value = "category")String category);
 
