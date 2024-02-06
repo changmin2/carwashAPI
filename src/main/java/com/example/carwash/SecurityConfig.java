@@ -42,6 +42,7 @@ public class SecurityConfig {
                 .requestMatchers("/community/**").permitAll()
                 .requestMatchers("/comment/**").permitAll()
                 .requestMatchers("/favorite/**").permitAll()
+                .requestMatchers("/s3/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)

@@ -1,3 +1,12 @@
+cloud:
+  aws:
+    s3:
+      bucket: carwashimagebucket
+    stack.auto: false
+    region.static: ap-northeast-2
+    credentials:
+      accessKey: AKIAQWFGXVGCE5NXUUHE
+      secretKey: 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
 jwt:
   secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHa
 spring:

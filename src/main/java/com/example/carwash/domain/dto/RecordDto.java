@@ -1,6 +1,7 @@
 package com.example.carwash.domain.dto;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -11,5 +12,6 @@ public class RecordDto {
     private String date;
     private String place;
 
+    private MultipartFile multipartFile;
 
 }

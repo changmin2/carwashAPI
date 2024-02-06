@@ -6,6 +6,7 @@ import com.example.carwash.domain.member.Member;
 import com.example.carwash.domain.record.CarWashRecord;
 import com.example.carwash.service.member.MemberService;
 import com.example.carwash.service.record.RecordService;
+import com.example.carwash.service.s3.S3Service;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,8 +31,10 @@ public class CarWashController {
     private final MemberService memberService;
     private final RecordService recordService;
 
+
     @PostMapping("/register")
     public CarWashRecord register(HttpServletRequest request,@RequestBody RecordDto recordDto) throws ParseException {
+
         String authroizationHeader = request.getHeader(AUTHORIZATION);
         if(authroizationHeader == null || !authroizationHeader.startsWith(TOKEN_HEADER_PREFIX)){
             throw new RuntimeException("JWT Token이 존재하지 않습니다.");
