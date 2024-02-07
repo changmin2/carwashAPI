@@ -1,12 +1,13 @@
 cloud:
   aws:
     s3:
+      endpoint: https://kr.object.ncloudstorage.com
       bucket: carwashimagebucket
     stack.auto: false
     region.static: ap-northeast-2
     credentials:
-      accessKey: AKIAQWFGXVGCE5NXUUHE
-      secretKey: 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
+      accessKey: bjyg78x20o0nO4O1VjVE
+      secretKey: HKj8DO5Y5UELPJqNo9GHaWHc0g3g4yyqDH2mutJ6
 jwt:
   secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHa
 spring:

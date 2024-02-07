@@ -1,7 +1,9 @@
 package com.example.carwash.service.s3;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,10 @@ public class S3Service {
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(multipartFile.getSize());
         metadata.setContentType(multipartFile.getContentType());
-        amazonS3.putObject(bucket, originalFilename, multipartFile.getInputStream(), metadata);
+        amazonS3.putObject(
+                new PutObjectRequest(bucket, originalFilename, multipartFile.getInputStream(), metadata)
+                        .withCannedAcl(CannedAccessControlList.PublicRead));
+        //amazonS3.putObject(bucket + "/carwash", originalFilename, multipartFile.getInputStream(), metadata);
         return amazonS3.getUrl(bucket, originalFilename).toString();
     }
 }
