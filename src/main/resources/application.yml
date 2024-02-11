@@ -11,6 +11,10 @@ cloud:
 jwt:
   secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHa
 spring:
+  servlet:
+    multipart:
+      maxFileSize: 10MB # 파일 하나의 최대 크기
+      maxRequestSize: 30MB  # 한 번에 최대 업로드 가능 용량
   mvc:
     path match:
       matching-strategy: ant_path_matcher
@@ -21,6 +25,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       max-lifetime: 177000
+
   jpa:
     database: mysql   # 추가 해준 부분
     hibernate:

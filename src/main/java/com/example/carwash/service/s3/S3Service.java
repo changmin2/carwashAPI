@@ -21,14 +21,15 @@ public class S3Service {
 
     public String saveFile(MultipartFile multipartFile) throws IOException {
         String originalFilename = multipartFile.getOriginalFilename();
-
+        System.out.println("파일 이름: " +originalFilename);
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(multipartFile.getSize());
         metadata.setContentType(multipartFile.getContentType());
+        System.out.println(metadata + " 메타데이터 정보");
         amazonS3.putObject(
                 new PutObjectRequest(bucket, originalFilename, multipartFile.getInputStream(), metadata)
                         .withCannedAcl(CannedAccessControlList.PublicRead));
-        //amazonS3.putObject(bucket + "/carwash", originalFilename, multipartFile.getInputStream(), metadata);
+        System.out.println("업로드 성공");
         return amazonS3.getUrl(bucket, originalFilename).toString();
     }
 }
