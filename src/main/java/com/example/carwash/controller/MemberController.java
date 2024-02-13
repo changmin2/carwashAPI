@@ -82,16 +82,18 @@ public class MemberController {
 
     @PostMapping("/join")
     public String join(@RequestBody Map<String,String> user){
-        System.out.println(user.toString());
         String memberId = user.get("memberId");
         //아이디가 중복 안됐을떄
-        if(memberService.duplicate(user.get("memberId"))){
+        if(memberService.duplicate(user.get("memberId")) == false){
+            return "-1";
+        }else if(memberService.duplicateNickname(user.get("nickname")) == false){
+            return "-2";
+        }else{
             String password = passwordEncoder.encode(user.get("password"));
             String nickname = user.get("nickname");
             String intro = user.get("intro");
             return memberService.join(memberId,password,nickname,intro);
         }
-        return "-1";
     }
 
     @PostMapping("/token")

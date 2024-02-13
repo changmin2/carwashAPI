@@ -94,4 +94,8 @@ public class MemberService {
         return memberRepository.findByMemberId(email).isEmpty();
     }
 
+    public boolean duplicateNickname(String nickName){
+        return memberRepository.duplicateNickName(nickName).isEmpty();
+    }
+
 }
