@@ -109,5 +109,16 @@ public class MemberController {
     }
 
 
+    // 회원탈퇴
+    @GetMapping("/withDrawal")
+    public void WithDrawl(HttpServletRequest request){
+        String authroizationHeader = request.getHeader(AUTHORIZATION);
+        if(authroizationHeader == null || !authroizationHeader.startsWith(TOKEN_HEADER_PREFIX)){
+            throw new RuntimeException("JWT Token이 존재하지 않습니다.");
+        }
 
+        String accessToken = authroizationHeader.substring(TOKEN_HEADER_PREFIX.length());
+        Member member= memberService.getMe(accessToken);
+        memberService.withDrawl(member);
+    }
 }
