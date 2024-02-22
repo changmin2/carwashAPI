@@ -49,20 +49,17 @@ public class CommunityService {
         );
     }
 
-    public Map<String, Object> paginate(CommunityRequestDto requestDto) {
+    public Map<String, Object> paginate(CommunityRequestDto requestDto,String memberId) {
         int count;
         boolean hasMore = true;
-        Optional<List<Community>> boardList = communityRepository.paginate(requestDto.getAfter(),requestDto.getCategory());
+        Optional<List<Community>> boardList = communityRepository.paginate(requestDto.getAfter(),requestDto.getCategory(),memberId);
         List<Community> lists = boardList.get();
+
         if(lists.size() == 0){
             return null;
         }
         count = lists.size();
-        System.out.println(boardList.get().get(count-1).getId());
-        System.out.println(communityRepository.getFinalId(requestDto.getCategory()));
-        System.out.println(boardList.get().get(count-1).getId().equals(communityRepository.getFinalId(requestDto.getCategory())));
-        System.out.println("gheefe");
-        if(boardList.get().get(count-1).getId().equals(communityRepository.getFinalId(requestDto.getCategory()))){
+        if(boardList.get().get(count-1).getId().equals(communityRepository.getFinalId(requestDto.getCategory(),memberId))){
             hasMore = false;
         }
 
@@ -75,8 +72,8 @@ public class CommunityService {
         return map;
     }
 
-    public List<Community> recentCommunity() {
-        return communityRepository.getRecentCommunity();
+    public List<Community> recentCommunity(String memberId) {
+        return communityRepository.getRecentCommunity(memberId);
     }
 
     public List<Community> recentFreeCommunity() {

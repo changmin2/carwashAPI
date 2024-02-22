@@ -44,6 +44,7 @@ public class SecurityConfig {
                 .requestMatchers("/favorite/**").permitAll()
                 .requestMatchers("/s3/**").permitAll()
                 .requestMatchers("/","/**").permitAll()
+                .requestMatchers("/block/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)

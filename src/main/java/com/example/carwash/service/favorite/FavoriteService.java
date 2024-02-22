@@ -21,7 +21,6 @@ public class FavoriteService {
     }
 
     public void addHeart(int boardId, String memberId) {
-        System.out.println(boardId + "=" + memberId+"hihihi");
         favoriteRepository.save(
                 Favorite.builder()
                         .memberId(memberId)
