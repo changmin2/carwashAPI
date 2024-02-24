@@ -74,5 +74,10 @@ public class CommunityController {
         communityService.downFavorite(id);
     }
 
+    @GetMapping("/delete/{id}")
+    void deleteBoard(@PathVariable("id") int id){
+        communityService.deleteBoard(id);
+    }
+
 
 }
