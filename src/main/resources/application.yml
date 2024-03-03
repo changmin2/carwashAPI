@@ -2,7 +2,7 @@ cloud:
   aws:
     s3:
       endpoint: https://kr.object.ncloudstorage.com
-      bucket: carwashimagebucket
+      bucket: carwashimagechnagminbucket
     stack.auto: false
     region.static: ap-northeast-2
     credentials:
@@ -19,7 +19,7 @@ spring:
     path match:
       matching-strategy: ant_path_matcher
   datasource:
-    url: jdbc:mysql://database-1.c1y7okbrwagj.ap-northeast-2.rds.amazonaws.com:3306/carwash?autoReconnect=true
+    url: jdbc:mysql://changmindb.cr2kywsayi5h.ap-northeast-2.rds.amazonaws.com:3306/carwash?autoReconnect=true
     username: admin
     password: gkfdkqjwl1
     driver-class-name: com.mysql.cj.jdbc.Driver
