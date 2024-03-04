@@ -96,6 +96,28 @@ public class MemberController {
         }
     }
 
+    @PostMapping("/edit")
+    public String edit(HttpServletRequest request, @RequestBody Map<String,String> user){
+        String authroizationHeader = request.getHeader(AUTHORIZATION);
+        if(authroizationHeader == null || !authroizationHeader.startsWith(TOKEN_HEADER_PREFIX)){
+            throw new RuntimeException("JWT Token이 존재하지 않습니다.");
+        }
+
+        String accessToken = authroizationHeader.substring(TOKEN_HEADER_PREFIX.length());
+        Map<String,String> json = new HashMap<>();
+        Member member= memberService.getMe(accessToken);
+        System.out.println(user.toString());
+        //닉네임이 중복 됐을떄
+        if(memberService.duplicateNickname(user.get("nickname")) == false && member.getNickname() != user.get("nickname")){
+            return "-2";
+        }else{
+            String nickname = user.get("nickname");
+            String intro = user.get("intro");
+            memberService.edit(member.getMemberId(),nickname,intro);
+            return "sucess";
+        }
+    }
+
     @PostMapping("/token")
     public TokenInfo refresh(HttpServletRequest request, HttpServletResponse response){
         System.out.println("리프레시 토큰 발급");

@@ -6,6 +6,7 @@ import com.example.carwash.provider.JwtTokenProvider;
 import com.example.carwash.repository.member.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -50,11 +51,19 @@ public class MemberService {
         ).getMemberId();
     }
 
+    @Transactional
+    public void edit(String memberId,String nickname,String intro){
+        Member member = memberRepository.findByMemberId(memberId).get();
+        member.setNickname(nickname);
+        member.setIntro(intro);
+    }
+
     public Optional<Member> getMember(String memberId){
         return memberRepository.findByMemberId(memberId);
     }
 
     @Transactional
+    @Modifying
     public TokenInfo refresh(String refreshToken){
         if(jwtTokenProvider.validateToken(refreshToken)) {
 
