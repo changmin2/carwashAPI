@@ -5,6 +5,7 @@ import com.example.carwash.domain.dto.RecordDto;
 import com.example.carwash.domain.member.Member;
 import com.example.carwash.domain.record.CarWashRecord;
 import com.example.carwash.service.member.MemberService;
+import com.example.carwash.service.record.MyRecordService;
 import com.example.carwash.service.record.RecordService;
 import com.example.carwash.service.s3.S3Service;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,6 +31,7 @@ public class CarWashController {
 
     private final MemberService memberService;
     private final RecordService recordService;
+    private final MyRecordService myRecordService;
 
 
     @PostMapping("/register")
@@ -63,6 +65,22 @@ public class CarWashController {
     @PostMapping("/recentRecord")
     public List<CarWashRecord> recentRecord(@RequestBody Map<String,String> json){
         return recordService.recnetRecord(json.get("memberId"));
+    }
+
+    @GetMapping("/myrecord/register/{washList}")
+    public void registerMyRecord(HttpServletRequest request,@PathVariable("washList")String washList) {
+
+        String authroizationHeader = request.getHeader(AUTHORIZATION);
+        if(authroizationHeader == null || !authroizationHeader.startsWith(TOKEN_HEADER_PREFIX)){
+            throw new RuntimeException("JWT Token이 존재하지 않습니다.");
+        }
+
+        String accessToken = authroizationHeader.substring(TOKEN_HEADER_PREFIX.length());
+        Member member= memberService.getMe(accessToken);
+
+        myRecordService.registerMyRecord(member.getMemberId(),washList);
+
+
     }
 
 }
