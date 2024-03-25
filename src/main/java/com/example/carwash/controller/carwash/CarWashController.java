@@ -4,6 +4,7 @@ import com.example.carwash.domain.dto.CarWashRecordDto;
 import com.example.carwash.domain.dto.RecordDto;
 import com.example.carwash.domain.member.Member;
 import com.example.carwash.domain.record.CarWashRecord;
+import com.example.carwash.domain.record.MyRecord;
 import com.example.carwash.service.member.MemberService;
 import com.example.carwash.service.record.MyRecordService;
 import com.example.carwash.service.record.RecordService;
@@ -15,10 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.example.carwash.utils.SecurityUtils.TOKEN_HEADER_PREFIX;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -82,5 +80,21 @@ public class CarWashController {
 
 
     }
+
+    @GetMapping("/myrecord")
+    public String  getMyRecord(HttpServletRequest request) {
+
+        String authroizationHeader = request.getHeader(AUTHORIZATION);
+        if(authroizationHeader == null || !authroizationHeader.startsWith(TOKEN_HEADER_PREFIX)){
+            throw new RuntimeException("JWT Token이 존재하지 않습니다.");
+        }
+
+        String accessToken = authroizationHeader.substring(TOKEN_HEADER_PREFIX.length());
+        Member member= memberService.getMe(accessToken);
+
+        return myRecordService.getMyRecord(member.getMemberId());
+
+    }
+
 
 }
