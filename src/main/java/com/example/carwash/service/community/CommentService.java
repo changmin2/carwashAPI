@@ -80,11 +80,13 @@ public class CommentService {
         reComment.setCreator(commentDto.getCreator());
         reComment.setContent(commentDto.getContent());
         reComment.setCreateDate(commentDto.getCreateDate());
+        reComment.setTarget(commentDto.getTarget());
         Comment comment = commentRepository.findById(Long.parseLong(commentId)).get();
         Community community = communityRepository.findById(comment.getCommentList_id()).get();
         community.setCommentCnt(community.getCommentCnt()+1);
         List<ReComment> commentList = comment.getCommentList();
         commentList.add(reComment);
+
         return commentList.get(commentList.size()-1);
     }
 

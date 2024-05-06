@@ -22,4 +22,6 @@ public class ReComment {
     private String content;
 
     private Date createDate;
+
+    private String target;
 }

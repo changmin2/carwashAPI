@@ -18,4 +18,7 @@ public class CommentDto{
 
     private Date createDate;
 
+    private String target;
+
+
 }
