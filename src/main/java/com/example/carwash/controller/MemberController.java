@@ -5,6 +5,7 @@ import com.example.carwash.domain.dto.MemberLoginRequestDto;
 import com.example.carwash.domain.dto.SNSLoginRequestDto;
 import com.example.carwash.domain.dto.TokenInfo;
 import com.example.carwash.domain.member.Member;
+import com.example.carwash.domain.member.MyProduct;
 import com.example.carwash.service.member.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -142,5 +143,20 @@ public class MemberController {
         String accessToken = authroizationHeader.substring(TOKEN_HEADER_PREFIX.length());
         Member member= memberService.getMe(accessToken);
         memberService.withDrawl(member);
+    }
+
+    //나의 세차용품 등록
+    @GetMapping("/registerMyProduct")
+    public void  getMyRecord(HttpServletRequest request, @RequestBody MyProduct myProduct) {
+
+        String authroizationHeader = request.getHeader(AUTHORIZATION);
+        if(authroizationHeader == null || !authroizationHeader.startsWith(TOKEN_HEADER_PREFIX)){
+            throw new RuntimeException("JWT Token이 존재하지 않습니다.");
+        }
+
+        String accessToken = authroizationHeader.substring(TOKEN_HEADER_PREFIX.length());
+        Member member= memberService.getMe(accessToken);
+
+
     }
 }
