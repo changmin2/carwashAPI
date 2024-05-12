@@ -7,6 +7,8 @@ import com.example.carwash.domain.dto.TokenInfo;
 import com.example.carwash.domain.member.Member;
 import com.example.carwash.domain.member.MyProduct;
 import com.example.carwash.service.member.MemberService;
+import com.example.carwash.service.myProduct.MyProductService;
+import com.example.carwash.service.record.MyRecordService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 public class MemberController {
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
+    private final MyProductService myProductService;
 
 
     @PostMapping("/login")
@@ -146,7 +149,7 @@ public class MemberController {
     }
 
     //나의 세차용품 등록
-    @GetMapping("/registerMyProduct")
+    @PostMapping("/registerMyProduct")
     public void  getMyRecord(HttpServletRequest request, @RequestBody MyProduct myProduct) {
 
         String authroizationHeader = request.getHeader(AUTHORIZATION);
@@ -156,7 +159,8 @@ public class MemberController {
 
         String accessToken = authroizationHeader.substring(TOKEN_HEADER_PREFIX.length());
         Member member= memberService.getMe(accessToken);
+        myProduct.setMemberId(member.getMemberId());
 
-
+        myProductService.registerMyProduct(myProduct);
     }
 }
