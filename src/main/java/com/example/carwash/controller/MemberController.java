@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -162,5 +163,18 @@ public class MemberController {
         myProduct.setMemberId(member.getMemberId());
 
         myProductService.registerMyProduct(myProduct);
+    }
+
+    @GetMapping("/getMyProduct")
+    public List<MyProduct> getMyProduct(HttpServletRequest request){
+        String authroizationHeader = request.getHeader(AUTHORIZATION);
+        if(authroizationHeader == null || !authroizationHeader.startsWith(TOKEN_HEADER_PREFIX)){
+            throw new RuntimeException("JWT Token이 존재하지 않습니다.");
+        }
+
+        String accessToken = authroizationHeader.substring(TOKEN_HEADER_PREFIX.length());
+        Member member= memberService.getMe(accessToken);
+
+        return myProductService.getMyProduct(member.getMemberId());
     }
 }

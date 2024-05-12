@@ -1,9 +1,6 @@
 package com.example.carwash.domain.member;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +19,9 @@ import lombok.NoArgsConstructor;
 public class MyProduct {
 
     @Id
-    @Column(updatable = false, unique = true, nullable = false)
+    @GeneratedValue
+    private Integer id;
+
     private String memberId;
 
     private String productName;

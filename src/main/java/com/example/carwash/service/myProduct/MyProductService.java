@@ -1,14 +1,12 @@
 package com.example.carwash.service.myProduct;
 
 import com.example.carwash.domain.member.MyProduct;
-import com.example.carwash.domain.record.MyRecord;
 import com.example.carwash.repository.myProduct.MyProductRepository;
-import com.example.carwash.repository.record.MyRecordRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -30,4 +28,8 @@ public class MyProductService {
         );
     }
 
+    public List<MyProduct> getMyProduct(String memberId) {
+        return myProductRepository.getMyProduct(memberId);
+
+    }
 }
