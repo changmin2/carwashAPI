@@ -151,7 +151,7 @@ public class MemberController {
 
     //나의 세차용품 등록
     @PostMapping("/registerMyProduct")
-    public void  getMyRecord(HttpServletRequest request, @RequestBody MyProduct myProduct) {
+    public MyProduct  getMyRecord(HttpServletRequest request, @RequestBody MyProduct myProduct) {
 
         String authroizationHeader = request.getHeader(AUTHORIZATION);
         if(authroizationHeader == null || !authroizationHeader.startsWith(TOKEN_HEADER_PREFIX)){
@@ -162,7 +162,7 @@ public class MemberController {
         Member member= memberService.getMe(accessToken);
         myProduct.setMemberId(member.getMemberId());
 
-        myProductService.registerMyProduct(myProduct);
+        return myProductService.registerMyProduct(myProduct);
     }
 
     @GetMapping("/getMyProduct")

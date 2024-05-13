@@ -31,4 +31,6 @@ public class MyProduct {
     private String cycle;
 
     private String imgUrl;
+
+    private String link;
 }

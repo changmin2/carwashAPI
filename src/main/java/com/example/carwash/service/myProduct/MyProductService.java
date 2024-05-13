@@ -16,16 +16,19 @@ public class MyProductService {
     private final MyProductRepository myProductRepository;
 
     @Transactional
-    public void registerMyProduct(MyProduct myProduct)  {
-        myProductRepository.save(
+    public MyProduct registerMyProduct(MyProduct myProduct)  {
+        MyProduct re = myProductRepository.save(
                 MyProduct.builder()
                         .memberId(myProduct.getMemberId())
                         .productName(myProduct.getProductName())
                         .category(myProduct.getCategory())
                         .cycle(myProduct.getCycle())
                         .imgUrl(myProduct.getImgUrl())
+                        .link(myProduct.getLink())
                         .build()
         );
+
+        return re;
     }
 
     public List<MyProduct> getMyProduct(String memberId) {
