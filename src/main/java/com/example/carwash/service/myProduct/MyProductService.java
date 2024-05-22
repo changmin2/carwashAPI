@@ -1,5 +1,6 @@
 package com.example.carwash.service.myProduct;
 
+import com.example.carwash.domain.dto.MemberInfoDto;
 import com.example.carwash.domain.member.MyProduct;
 import com.example.carwash.repository.myProduct.MyProductRepository;
 import jakarta.transaction.Transactional;
@@ -33,6 +34,6 @@ public class MyProductService {
 
     public List<MyProduct> getMyProduct(String memberId) {
         return myProductRepository.getMyProduct(memberId);
-
     }
+
 }

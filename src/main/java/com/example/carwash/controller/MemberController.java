@@ -1,6 +1,7 @@
 package com.example.carwash.controller;
 
 
+import com.example.carwash.domain.dto.MemberInfoDto;
 import com.example.carwash.domain.dto.MemberLoginRequestDto;
 import com.example.carwash.domain.dto.SNSLoginRequestDto;
 import com.example.carwash.domain.dto.TokenInfo;
@@ -9,6 +10,7 @@ import com.example.carwash.domain.member.MyProduct;
 import com.example.carwash.service.member.MemberService;
 import com.example.carwash.service.myProduct.MyProductService;
 import com.example.carwash.service.record.MyRecordService;
+import com.example.carwash.service.record.RecordService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static com.example.carwash.utils.SecurityUtils.TOKEN_HEADER_PREFIX;
 import static java.util.Map.entry;
@@ -34,6 +33,7 @@ public class MemberController {
     private final PasswordEncoder passwordEncoder;
     private final MyProductService myProductService;
 
+    private final MyRecordService myRecordService;
 
     @PostMapping("/login")
     public TokenInfo login(@RequestBody MemberLoginRequestDto memberLoginRequestDto) {
@@ -176,5 +176,32 @@ public class MemberController {
         Member member= memberService.getMe(accessToken);
 
         return myProductService.getMyProduct(member.getMemberId());
+    }
+
+    @GetMapping("/getUserInfo/{nickname}")
+    public MemberInfoDto getUserInfo(@PathVariable("nickname")String nickname){
+        try{
+            Member member = memberService.findByNickName(nickname);
+
+            MemberInfoDto memberInfoDto = new MemberInfoDto();
+            memberInfoDto.setRecord(
+                    myRecordService.getMyRecord(member.getMemberId())
+            );
+            memberInfoDto.setMyProduct(
+                    myProductService.getMyProduct(member.getMemberId())
+            );
+            System.out.println(memberInfoDto.toString());
+            return memberInfoDto;
+        }catch (Exception e){
+            MemberInfoDto memberInfoDto = new MemberInfoDto();
+            memberInfoDto.setRecord("");
+            List<MyProduct> list = Collections.emptyList();
+            memberInfoDto.setMyProduct(list);
+            System.out.println(memberInfoDto.toString());
+            return memberInfoDto;
+
+        }
+
+
     }
 }

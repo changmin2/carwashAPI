@@ -107,4 +107,7 @@ public class MemberService {
         return memberRepository.duplicateNickName(nickName).isEmpty();
     }
 
+    public Member findByNickName(String nickname){
+        return memberRepository.duplicateNickName(nickname).get();
+    }
 }
