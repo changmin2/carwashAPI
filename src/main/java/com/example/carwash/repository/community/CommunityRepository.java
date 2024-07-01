@@ -66,7 +66,18 @@ public interface CommunityRepository extends JpaRepository<Community,Integer> {
             "where memberId = :memberId\n" +
             "   )\n" +
             "order by favorite desc,createDate desc\n" +
-            "limit 5)\n",nativeQuery = true)
+            "limit 5)\n" +
+            "union \n" +
+            "(select *\n" +
+            "  from carwash.Community\n" +
+            " where category = \"질문게시판\"\n" +
+            "   AND creator NOT IN (\n" +
+            "SELECT a.blockId\n" +
+            "FROM carwash.Block a\n" +
+            "where memberId = :memberId\n" +
+            "   )\n" +
+            "order by createDate desc\n" +
+            "limit 3)\n",nativeQuery = true)
     List<Community> getRecentCommunity(@Param(value = "memberId")String memberId);
 
     @Query(value = "SELECT * FROM carwash.Community\n" +

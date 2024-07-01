@@ -88,7 +88,7 @@ public class JwtTokenProvider {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             //리프레시로이용
-            System.out.println("refresh: "+Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject());
+            //System.out.println("refresh: "+Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject());
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token", e);
