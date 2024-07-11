@@ -1,10 +1,7 @@
 package com.example.carwash.controller;
 
 
-import com.example.carwash.domain.dto.MemberInfoDto;
-import com.example.carwash.domain.dto.MemberLoginRequestDto;
-import com.example.carwash.domain.dto.SNSLoginRequestDto;
-import com.example.carwash.domain.dto.TokenInfo;
+import com.example.carwash.domain.dto.*;
 import com.example.carwash.domain.member.Member;
 import com.example.carwash.domain.member.MyProduct;
 import com.example.carwash.service.member.MemberService;
@@ -203,5 +200,19 @@ public class MemberController {
         }
 
 
+    }
+
+    //파이어베이스 기기 토큰 등록
+    @PostMapping("/setFirebaseToken")
+    public void setFirebaseToken(HttpServletRequest request, @RequestBody FirebaseTokenDto tokenDto) {
+
+        String authroizationHeader = request.getHeader(AUTHORIZATION);
+        if(authroizationHeader == null || !authroizationHeader.startsWith(TOKEN_HEADER_PREFIX)){
+            throw new RuntimeException("JWT Token이 존재하지 않습니다.");
+        }
+
+        String accessToken = authroizationHeader.substring(TOKEN_HEADER_PREFIX.length());
+        Member member= memberService.getMe(accessToken);
+        memberService.setFirebaseToken(member,tokenDto.getFirebaseToken());
     }
 }

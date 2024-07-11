@@ -110,4 +110,9 @@ public class MemberService {
     public Member findByNickName(String nickname){
         return memberRepository.duplicateNickName(nickname).get();
     }
+
+    @Modifying
+    public void setFirebaseToken(Member member, String firebaseToken) {
+        member.setFirebaseToken(firebaseToken);
+    }
 }

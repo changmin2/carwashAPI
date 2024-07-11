@@ -32,6 +32,10 @@ public class Member implements UserDetails {
 
     private String intro;
 
+    private String firebaseToken;
+
+    private String rcvAlarmYn;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
