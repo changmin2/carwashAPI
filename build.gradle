@@ -38,7 +38,8 @@ dependencies {
 	implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.228')
 	implementation 'com.amazonaws:aws-java-sdk-s3'
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
-
+	implementation 'com.google.firebase:firebase-admin:6.8.1'
+	implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.2.2'
 }
 
 tasks.named('test') {

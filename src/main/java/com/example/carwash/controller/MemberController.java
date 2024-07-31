@@ -78,6 +78,8 @@ public class MemberController {
         json.put("password",member.getPassword());
         json.put("nickname",member.getNickname());
         json.put("intro",member.getIntro());
+        json.put("firebaseToken", member.getFirebaseToken());
+        json.put("rcvAlarmYn",member.getRcvAlarmYn());
         return json;
 
     }

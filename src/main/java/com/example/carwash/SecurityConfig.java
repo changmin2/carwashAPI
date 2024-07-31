@@ -47,6 +47,7 @@ public class SecurityConfig {
                 .requestMatchers("/","/**").permitAll()
                 .requestMatchers("/block/**").permitAll()
                 .requestMatchers("/accountBook/**").permitAll()
+                .requestMatchers("/firebase/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
