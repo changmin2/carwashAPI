@@ -4,7 +4,7 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-!**/src/main/resources/fireabse/carwash-68d25-firebase-adminsdk-jw7w8-3cc0bc789c.json
+.carwash-68d25-firebase-adminsdk-jw7w8-3cc0bc789c.json
 ### STS ###
 .apt_generated
 .classpath
