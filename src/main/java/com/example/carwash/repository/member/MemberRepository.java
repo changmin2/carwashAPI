@@ -19,4 +19,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
             " WHERE nickname =:nickName",nativeQuery = true)
     Optional<Member> duplicateNickName(@Param("nickName") String nickName);
 
+    @Query(value = "SELECT firebaseToken FROM carwash.Member\n" +
+            "where firebaseToken is not null\n" +
+            "  and rcvAlarmYn = 'Y'",nativeQuery = true)
+    List<String> getRcvAlramY();
+
 }

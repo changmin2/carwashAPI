@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -46,6 +47,7 @@ public class MemberService {
                         .password(password)
                         .nickname(nickname)
                         .intro(intro)
+                        .rcvAlarmYn("Y")
                         .roles(Collections.singletonList("USER"))
                         .build()
         ).getMemberId();
@@ -114,5 +116,14 @@ public class MemberService {
     @Modifying
     public void setFirebaseToken(Member member, String firebaseToken) {
         member.setFirebaseToken(firebaseToken);
+    }
+
+    @Modifying
+    public void updateAlarmYn(Member member) {
+        member.setRcvAlarmYn(member.getRcvAlarmYn().equals("Y") ? "N" : "Y");
+    }
+
+    public List<String> getRcvAlramY() {
+        return memberRepository.getRcvAlramY();
     }
 }
