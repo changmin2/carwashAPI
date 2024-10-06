@@ -5,10 +5,12 @@ import com.example.carwash.domain.comment.ReComment;
 import com.example.carwash.domain.dto.community.CommentDto;
 import com.example.carwash.domain.dto.community.CommentRequestDto;
 import com.example.carwash.service.community.CommentService;
+import com.example.carwash.service.fireabase.FirebaseCloudMessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -27,7 +29,7 @@ public class CommentController {
 
     //댓글 생성
     @PostMapping("/{id}")
-    public Comment createComment(@PathVariable("id")String recipe_id, @RequestBody CommentDto commentDto) throws ParseException {
+    public Comment createComment(@PathVariable("id")String board_id, @RequestBody CommentDto commentDto) throws ParseException, IOException {
         Date now = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         // 포맷팅 적용
@@ -39,7 +41,7 @@ public class CommentController {
 
         commentDto.setCreateDate(cal.getTime());
 
-        return commentService.createComment(recipe_id,commentDto);
+        return commentService.createComment(board_id,commentDto);
     }
 
     //댓글 조회

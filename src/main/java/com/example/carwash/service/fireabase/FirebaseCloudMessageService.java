@@ -6,6 +6,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.net.HttpHeaders;
+import com.google.firebase.messaging.Message;
+import com.google.firebase.messaging.Notification;
 import lombok.RequiredArgsConstructor;
 import okhttp3.*;
 import org.springframework.core.io.ClassPathResource;
@@ -22,28 +24,29 @@ public class FirebaseCloudMessageService {
     private final String API_URL = "https://fcm.googleapis.com/v1/projects/" +
             "carwash-68d25/messages:send";
     private final ObjectMapper objectMapper;
+    static int id = 0;
 
     public void sendMessageTo(String targetToken, String title, String body) throws IOException {
         String message = makeMessage(targetToken, title, body);
-        System.out.println("fcm 1");
-        System.out.println(message.toString());
+
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = RequestBody.create(message,
                 MediaType.get("application/json; charset=utf-8"));
-        System.out.println("fcm 2");
+
         Request request = new Request.Builder()
                 .url(API_URL)
                 .post(requestBody)
                 .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + getAccessToken())
                 .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; UTF-8")
                 .build();
-        System.out.println("fcm 3");
+
         Response response = client.newCall(request).execute();
 
         System.out.println(response.body().string());
     }
 
     private String makeMessage(String targetToken, String title, String body) throws JsonParseException, JsonProcessingException {
+
         FcmMessage fcmMessage = FcmMessage.builder()
                 .message(FcmMessage.Message.builder()
                         .token(targetToken)
@@ -52,7 +55,8 @@ public class FirebaseCloudMessageService {
                                 .body(body)
                                 .image(null)
                                 .build()
-                        ).build()).validateOnly(false).build();
+                        )
+                        .build()).validateOnly(false).build();
 
         return objectMapper.writeValueAsString(fcmMessage);
     }

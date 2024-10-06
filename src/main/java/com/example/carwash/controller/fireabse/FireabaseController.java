@@ -26,7 +26,7 @@ public class FireabaseController {
 
     @PostMapping("/fcm/sendTotalUser")
     public ResponseEntity pushMessage(@RequestBody FcmMessageDto message) throws IOException {
-        System.out.println(message.toString());
+
         List<String> fcmTokens = memberService.getRcvAlramY();
         for (String fcmToken : fcmTokens) {
             firebaseCloudMessageService.sendMessageTo(

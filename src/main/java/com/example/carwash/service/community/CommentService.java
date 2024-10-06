@@ -1,18 +1,25 @@
 package com.example.carwash.service.community;
 
+import com.example.carwash.component.FirebaseUtil;
 import com.example.carwash.domain.comment.Comment;
 import com.example.carwash.domain.comment.ReComment;
 import com.example.carwash.domain.community.Community;
 import com.example.carwash.domain.dto.MetaDto;
 import com.example.carwash.domain.dto.community.CommentDto;
 import com.example.carwash.domain.dto.community.CommentRequestDto;
+import com.example.carwash.domain.member.Member;
 import com.example.carwash.repository.community.CommentRepository;
 import com.example.carwash.repository.community.CommunityRepository;
 import com.example.carwash.repository.community.ReCommentRepository;
+import com.example.carwash.repository.member.MemberRepository;
+import com.example.carwash.service.fireabase.FirebaseCloudMessageService;
+import com.example.carwash.service.member.MemberService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -26,8 +33,12 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final CommunityRepository communityRepository;
     private final ReCommentRepository reCommentRepository;
+    private final FirebaseUtil firebaseUtil;
+
+    private final MemberRepository memberRepository;
+
     @Transactional
-    public Comment createComment(String recipe_id, CommentDto commentDto){
+    public Comment createComment(String recipe_id, CommentDto commentDto) throws IOException {
         Comment comment = new Comment();
         comment.setCreator(commentDto.getCreator());
         comment.setContent(commentDto.getContent());
@@ -37,6 +48,11 @@ public class CommentService {
         community.setCommentCnt(community.getCommentCnt()+1);
         List<Comment> commentList = community.getCommentList();
         commentList.add(comment);
+
+        Member member = memberRepository.duplicateNickName(community.getCreator()).get();
+
+        firebaseUtil.sendToMessage("세차노트","새로운 댓글이 달렸어요",member.getFirebaseToken());
+
         return commentList.get(commentList.size()-1);
 
     }
