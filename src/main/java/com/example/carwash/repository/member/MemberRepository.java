@@ -24,4 +24,10 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
             "  and rcvAlarmYn = 'Y'",nativeQuery = true)
     List<String> getRcvAlramY();
 
+    @Query(value = "SELECT distinct firebaseToken FROM carwash.Member\n" +
+            "where firebaseToken is not null\n" +
+            "  and rcvAlarmYn = 'Y'" +
+            "  and nickname =:nickName",nativeQuery = true)
+    String getRcvAlramYMember(@Param("nickName") String nickName);
+
 }

@@ -6,8 +6,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.net.HttpHeaders;
-import com.google.firebase.messaging.Message;
-import com.google.firebase.messaging.Notification;
 import lombok.RequiredArgsConstructor;
 import okhttp3.*;
 import org.springframework.core.io.ClassPathResource;
@@ -27,8 +25,9 @@ public class FirebaseCloudMessageService {
     static int id = 0;
 
     public void sendMessageTo(String targetToken, String title, String body) throws IOException {
+        System.out.println("푸쉬 알림 발송 시작");
         String message = makeMessage(targetToken, title, body);
-
+        System.out.println("푸쉬 알림 메시지: "+message.toString());
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = RequestBody.create(message,
                 MediaType.get("application/json; charset=utf-8"));
@@ -39,10 +38,11 @@ public class FirebaseCloudMessageService {
                 .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + getAccessToken())
                 .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; UTF-8")
                 .build();
-
+        System.out.println("푸쉬 알림 메시지 요청");
         Response response = client.newCall(request).execute();
-
+        System.out.println("푸쉬 알림 메시지 응답");
         System.out.println(response.body().string());
+        System.out.println("푸쉬 알림 발송 종료");
     }
 
     private String makeMessage(String targetToken, String title, String body) throws JsonParseException, JsonProcessingException {
@@ -62,13 +62,22 @@ public class FirebaseCloudMessageService {
     }
 
     private String getAccessToken() throws IOException {
-        String firebaseConfigPath = "fireabse/carwash-68d25-firebase-adminsdk-jw7w8-3cc0bc789c.json";
+        try {
 
-        GoogleCredentials googleCredentials = GoogleCredentials
-                .fromStream(new ClassPathResource(firebaseConfigPath).getInputStream())
-                .createScoped(List.of("https://www.googleapis.com/auth/cloud-platform"));
+            System.out.println("푸쉬 알림 토큰 가져오기");
+            String firebaseConfigPath = "firebase/carwash-68d25-67d8daf52c0c.json";
 
-        googleCredentials.refreshIfExpired();
-        return googleCredentials.getAccessToken().getTokenValue();
+            GoogleCredentials googleCredentials = GoogleCredentials
+                    .fromStream(new ClassPathResource(firebaseConfigPath).getInputStream())
+                    .createScoped(List.of("https://www.googleapis.com/auth/cloud-platform"));
+            System.out.println("푸쉬 알림 토큰 만료 검사");
+            googleCredentials.refreshIfExpired();
+            System.out.println("푸쉬 알림 토큰 가져오기 완료");
+
+            return googleCredentials.getAccessToken().getTokenValue();
+        } catch (IOException e){
+            e.printStackTrace();
+            throw new IOException();
+        }
     }
 }

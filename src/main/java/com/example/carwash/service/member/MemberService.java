@@ -126,4 +126,8 @@ public class MemberService {
     public List<String> getRcvAlramY() {
         return memberRepository.getRcvAlramY();
     }
+
+    public String getRcvAlramYMember(String nickname){
+        return memberRepository.getRcvAlramYMember(nickname);
+    }
 }

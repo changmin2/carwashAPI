@@ -4,8 +4,10 @@ import com.example.carwash.domain.comment.Comment;
 import com.example.carwash.domain.comment.ReComment;
 import com.example.carwash.domain.dto.community.CommentDto;
 import com.example.carwash.domain.dto.community.CommentRequestDto;
+import com.example.carwash.domain.member.Member;
 import com.example.carwash.service.community.CommentService;
 import com.example.carwash.service.fireabase.FirebaseCloudMessageService;
+import com.example.carwash.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,8 @@ import java.util.Map;
 public class CommentController {
 
     private final CommentService commentService;
+    private final MemberService memberService;
+    private  final FirebaseCloudMessageService firebaseCloudMessageService;
 
     //댓글 생성
     @PostMapping("/{id}")
@@ -40,6 +44,13 @@ public class CommentController {
         cal.add(Calendar.HOUR,9);
 
         commentDto.setCreateDate(cal.getTime());
+
+        //해당 게시글 작성자에게 댓글 작성 푸쉬 알림
+        String creatorFirebaseToken = memberService.getRcvAlramYMember(commentDto.getCreator());
+        if(!creatorFirebaseToken.isEmpty()){
+            firebaseCloudMessageService.sendMessageTo(creatorFirebaseToken,"세차노트","게시물에 댓글이 달렸어요.");
+        }
+
 
         return commentService.createComment(board_id,commentDto);
     }
