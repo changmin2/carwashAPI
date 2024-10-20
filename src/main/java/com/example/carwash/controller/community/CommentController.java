@@ -45,14 +45,15 @@ public class CommentController {
 
         commentDto.setCreateDate(cal.getTime());
 
+        Comment comment = commentService.createComment(board_id,commentDto);
+
         //해당 게시글 작성자에게 댓글 작성 푸쉬 알림
         String creatorFirebaseToken = memberService.getRcvAlramYMember(commentDto.getCreator());
         if(!creatorFirebaseToken.isEmpty()){
-            firebaseCloudMessageService.sendMessageTo(creatorFirebaseToken,"세차노트","게시물에 댓글이 달렸어요.");
+            firebaseCloudMessageService.sendMessageTo(creatorFirebaseToken,"세차노트","게시물에 댓글이 달렸어요.","community/"+board_id.toString());
         }
 
-
-        return commentService.createComment(board_id,commentDto);
+        return comment;
     }
 
     //댓글 조회

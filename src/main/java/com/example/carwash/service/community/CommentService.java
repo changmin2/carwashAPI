@@ -51,8 +51,6 @@ public class CommentService {
 
         Member member = memberRepository.duplicateNickName(community.getCreator()).get();
 
-        firebaseUtil.sendToMessage("세차노트","새로운 댓글이 달렸어요",member.getFirebaseToken());
-
         return commentList.get(commentList.size()-1);
 
     }

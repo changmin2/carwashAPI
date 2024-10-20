@@ -32,7 +32,8 @@ public class FireabaseController {
             firebaseCloudMessageService.sendMessageTo(
                     fcmToken,
                     message.getTitle(),
-                    message.getBody());
+                    message.getBody()
+            ,"");
         }
 
         return ResponseEntity.ok().build();

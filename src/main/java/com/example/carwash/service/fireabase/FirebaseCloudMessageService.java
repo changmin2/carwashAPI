@@ -24,9 +24,9 @@ public class FirebaseCloudMessageService {
     private final ObjectMapper objectMapper;
     static int id = 0;
 
-    public void sendMessageTo(String targetToken, String title, String body) throws IOException {
+    public void sendMessageTo(String targetToken, String title, String body,String routeId) throws IOException {
         System.out.println("푸쉬 알림 발송 시작");
-        String message = makeMessage(targetToken, title, body);
+        String message = makeMessage(targetToken, title, body,routeId);
         System.out.println("푸쉬 알림 메시지: "+message.toString());
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = RequestBody.create(message,
@@ -45,7 +45,7 @@ public class FirebaseCloudMessageService {
         System.out.println("푸쉬 알림 발송 종료");
     }
 
-    private String makeMessage(String targetToken, String title, String body) throws JsonParseException, JsonProcessingException {
+    private String makeMessage(String targetToken, String title, String body,String routeId) throws JsonParseException, JsonProcessingException {
 
         FcmMessage fcmMessage = FcmMessage.builder()
                 .message(FcmMessage.Message.builder()
@@ -55,6 +55,11 @@ public class FirebaseCloudMessageService {
                                 .body(body)
                                 .image(null)
                                 .build()
+                        )
+                        .data(
+                            FcmMessage.Data.builder()
+                                    .routeId(routeId)
+                                    .build()
                         )
                         .build()).validateOnly(false).build();
 

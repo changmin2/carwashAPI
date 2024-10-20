@@ -15,7 +15,7 @@ public class FirebaseUtil {
     private final FirebaseCloudMessageService firebaseCloudMessageService;
 
     @Async
-    public void sendToMessage(String title,String body,String token) throws IOException {
-        firebaseCloudMessageService.sendMessageTo(token,title,body);
+    public void sendToMessage(String title,String body,String token,String route,String routeId) throws IOException {
+        firebaseCloudMessageService.sendMessageTo(token,title,body,routeId);
     }
 }
